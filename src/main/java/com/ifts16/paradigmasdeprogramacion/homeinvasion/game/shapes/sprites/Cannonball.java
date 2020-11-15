@@ -32,6 +32,7 @@ import java.awt.Rectangle;
  */
 public class Cannonball extends Sprite {
 	private final int DIAMETER = 3;
+	private Color color;
 	private double gravity = 0.1;
 
 	/**
@@ -42,6 +43,7 @@ public class Cannonball extends Sprite {
 	 */
 	public Cannonball(int x, int y, int velocity, double tilt) {
 		super(x, y, velocity * (Math.cos(Math.toRadians(tilt))), -velocity * (Math.sin(Math.toRadians(tilt))));
+		color = new Color(0, 51, 0);
 	}
 
 	/* (non-Javadoc)
@@ -59,12 +61,12 @@ public class Cannonball extends Sprite {
 	 */
 	@Override
 	public void draw(Graphics2D g2d) {
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(color);
         g2d.fillOval(getX(), getY(), DIAMETER, DIAMETER);
 	}
 
 	public Rectangle getBounds() {
-		Rectangle rectangle = new Rectangle(getX(), getY(), 3, 3);
+		Rectangle rectangle = new Rectangle(getX(), getY(), DIAMETER, DIAMETER);
 		return rectangle;
 	}
 }

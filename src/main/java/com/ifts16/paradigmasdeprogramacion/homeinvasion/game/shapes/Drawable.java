@@ -1,5 +1,5 @@
 /*
- * 		Shape.java
+ * 		Drawable.java
  *   Copyright (C) 2020  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -17,53 +17,17 @@
  */
 
 /**
- * 		Shape.java
- *  Adrián E. Córdoba [software.asia@gmail.com]		Nov 14, 2020
+ * 		Drawable.java
+ *  Adrián E. Córdoba [software.asia@gmail.com]		Nov 15, 2020
  */
 package com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes;
 
-import java.awt.Rectangle;
+import java.awt.Graphics2D;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  *
  */
-public abstract class Shape implements Drawable{
-	private int x;
-	private int y;
-
-	public Shape(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	public abstract Rectangle getBounds();
-
-	/**
-	 * @return the x
-	 */
-	public int getX() {
-		return x;
-	}
-
-	/**
-	 * @param x the x to set
-	 */
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	/**
-	 * @return the y
-	 */
-	public int getY() {
-		return y;
-	}
-
-	/**
-	 * @param y the y to set
-	 */
-	public void setY(int y) {
-		this.y = y;
-	}
+public interface Drawable {
+	void draw(Graphics2D g2d);
 }

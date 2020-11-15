@@ -9,6 +9,7 @@ public class Tank extends Sprite {
 	private final int LENGTH = 30;
 	private final int HEIGHT = 7;
 	private final int CANNON_LENGTH = 25;
+	private Color color;
 	private int angle;
 	private int angleIncrement;
 	private int power;
@@ -18,6 +19,7 @@ public class Tank extends Sprite {
 		super(x, y, 0, 0);
 		angle = 0;
 		power = 1;
+		color = new Color(0, 102, 102);
 		ballList = new ArrayList<>();
 	}
 
@@ -32,14 +34,13 @@ public class Tank extends Sprite {
 		if (!ballList.isEmpty()) {
 			for (Cannonball cannonball : ballList) {
 				cannonball.move();
-
 			}
 		}
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		g2d.setColor(Color.WHITE);
+		g2d.setColor(color);
 		g2d.fillOval(getX(), getY(), LENGTH, HEIGHT);
 		int tankCentre = getX() + LENGTH / 2;
 		g2d.drawLine(tankCentre, getY(), (int) (tankCentre + CANNON_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getY() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))));

@@ -22,8 +22,6 @@
  */
 package com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites;
 
-import java.awt.Graphics2D;
-
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Shape;
 
 /**

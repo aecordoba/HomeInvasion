@@ -42,40 +42,43 @@ public class Jet extends Sprite {
 	 * @param dy
 	 */
 	private List<Missile> missiles;
-	
+
 	public Jet(int x, int y, double dx) {
 		super(x, y, dx, 0);
 		missiles = new ArrayList<Missile>();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#move()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#move
+	 * ()
 	 */
 	@Override
 	public void move() {
-		setX((int)(getX() - getDx()));
-		
-		for(int i = 0; i<40; i++) {
-		 if(getX() == (int)(Math.random()*800)) {
-			  addMissile();
-		 }
+		setX((int) (getX() - getDx()));
+		for (int i = 0; i < 40; i++) {
+			if (getX() == (int) (Math.random() * 800)) {
+				addMissile();
+			}
 		}
-		 
-		if(getX()<800) {
-			
-		    
-		    for(Missile missile: missiles) {
-			missile.move();
-		    }
+		if (getX() < 800) {
+			for (Missile missile : missiles) {
+				missile.move();
+			}
 		}
-		
-		if(getX()==0) {
+		if (getX() == 0) {
 			this.setX(800);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#draw(java.awt.Graphics2D)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#draw
+	 * (java.awt.Graphics2D)
 	 */
 	@Override
 	public void draw(Graphics2D g2d) {
@@ -87,30 +90,29 @@ public class Jet extends Sprite {
 		path.lineTo(x + 50, y);
 		path.lineTo(x + 57, y - 15);
 		path.lineTo(x + 45, y - 5);
-		
+
 		path.closePath();
 		g2d.fill(path);
-		
-		for(Missile missile: missiles) {
-		missile.draw(g2d);
+
+		for (Missile missile : missiles) {
+			missile.draw(g2d);
 		}
 	}
-	
+
 	public void addMissile() {
 		missiles.add(new Missile(getX(), getY()));
 	}
 
-	public ArrayList<Missile> returnList(){
-	    ArrayList<Missile> missilesList = new ArrayList<Missile>();
-	    for(Missile missile: missiles) {
-	    	missilesList.add(missile);
-	    }
-		
+	public ArrayList<Missile> getMissilesList() {
+		ArrayList<Missile> missilesList = new ArrayList<Missile>();
+		for (Missile missile : missiles) {
+			missilesList.add(missile);
+		}
 		return missilesList;
 	}
-	
+
 	public Rectangle getBounds() {
-		Rectangle rectangle = new Rectangle( getX(), getY(), 50, 15);
+		Rectangle rectangle = new Rectangle(getX(), getY(), 57, 15);
 		return rectangle;
 	}
 }

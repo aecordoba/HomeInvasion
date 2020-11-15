@@ -24,8 +24,10 @@ package com.ifts16.paradigmasdeprogramacion.homeinvasion.game;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -33,9 +35,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Shape;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.StatusDisplay;
+import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.StatusScreen;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Structure;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Jet;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Sprite;
@@ -48,6 +50,13 @@ import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.verifications.Colli
  */
 public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private static final long serialVersionUID = 1L;
+
+	enum Status {
+		PLAYING, LOST, GAME_OVER, WON
+	};
+
+	private Status currentStatus;
+
 	private int width;
 	private int height;
 	private Tank tank;
@@ -70,6 +79,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private Structure building2;
 	private Structure building3;
 	private Structure barrier;
+	private Structure ground;
 	private Jet jet1;
 	private Jet jet2;
 	private Collision collision;
@@ -77,9 +87,10 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	public GamePanel(int width, int height) {
 		this.width = width;
 		this.height = height;
+		currentStatus = Status.PLAYING;
+		life = 3;
 		spritesList = new ArrayList<>();
 		shapesList = new ArrayList<>();
-		collision = new Collision();
 		initComponents();
 	}
 
@@ -87,11 +98,23 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		cleanScreen(g2d);
-		for (Sprite sprite : spritesList)
-			sprite.draw(g2d);
-		for (Shape shape : shapesList)
-			shape.draw(g2d);
+		
+
+		if (currentStatus == Status.PLAYING) {
+			GradientPaint redtowhite = new GradientPaint(0,0,Color.BLUE,0, 500,Color.WHITE);
+			g2d.setPaint(redtowhite);
+			g2d.fill(new Rectangle(0, 0, width, height));
+			for (Sprite sprite : spritesList)
+				sprite.draw(g2d);
+			for (Shape shape : shapesList)
+				shape.draw(g2d);
+		} else if (currentStatus == Status.LOST) {
+			new StatusScreen("TANQUE DETERIORADO").draw(g2d);
+		} else if (currentStatus == Status.GAME_OVER) {
+			new StatusScreen("JUEGO TERMINADO").draw(g2d);
+		} else if (currentStatus == Status.WON) {
+			new StatusScreen("USTED GANA").draw(g2d);
+		}
 	}
 
 	@Override
@@ -107,22 +130,22 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			updateScene();
+			if (currentStatus == Status.PLAYING)
+				updateScene();
 			repaint();
-
 			waitToMove(40);
 		}
 	}
 
 	private void initComponents() {
-		setBackground(Color.black);
+		setBackground(Color.BLACK);
 		tank = new Tank(0, 443);
+		collision = new Collision(tank);
 		spritesList.add(tank);
 		jet1 = new Jet(800, 100, 5);
 		jet2 = new Jet(500, 150, 5);
 		spritesList.add(jet1);
 		spritesList.add(jet2);
-        life = 3;
 		powerDisplay = new StatusDisplay(POWER_DISPLAY_X, STATUS_DISPLAY_Y, "POTENCIA");
 		angleDisplay = new StatusDisplay(ANGLE_DISPLAY_X, STATUS_DISPLAY_Y, "ANGULO");
 		scoreDisplay = new StatusDisplay(SCORE_DISPLAY_X, STATUS_DISPLAY_Y, "PUNTAJE");
@@ -131,6 +154,8 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		building2 = new Structure(750, 290, Color.BLUE);
 		building3 = new Structure(620, 290, Color.BLUE);
 		barrier = new Structure(550, 290, Color.RED);
+		ground = new Structure(0, 450, 800, 500, Color.GREEN);
+		shapesList.add(ground);
 		shapesList.add(powerDisplay);
 		shapesList.add(angleDisplay);
 		shapesList.add(scoreDisplay);
@@ -157,47 +182,60 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	}
 
 	private void updateSpritesStatus() {
-		
-		if(collision.verifyCollisionCannonballJet(tank, jet1)) {
+		if (collision.verifyCollisionCannonballJet(jet1)) {
 			spritesList.remove(jet1);
-			score+=5;
+			score += 5;
+			if(score > 15)
+				currentStatus = Status.WON;
 		}
-		
-		if(collision.verifyCollisionCannonballJet(tank, jet2)) {
+
+		if (collision.verifyCollisionCannonballJet(jet2)) {
 			spritesList.remove(jet2);
-			score+=7;
-			
+			score += 7;
+			if(score > 15)
+				currentStatus = Status.WON;
 		}
-		
-		if(collision.verifyCollisionCannonballTank(tank)) {
+
+		if (collision.verifyCollisionCannonballTank()) {
 			life--;
+			if (life < 1)
+				currentStatus = Status.GAME_OVER;
+			else
+				currentStatus = Status.LOST;
 		}
-		if(collision.verifyCollisionCannonballBuilding(tank, building1)) {
+		if (collision.verifyCollisionCannonballBuilding(building1)) {
 			shapesList.remove(building1);
-			score+=8;
-		
+			score += 8;
+			if(score > 15)
+				currentStatus = Status.WON;
 		}
-		
-		if(collision.verifyCollisionCannonballBuilding(tank, building2)) {
+
+		if (collision.verifyCollisionCannonballBuilding(building2)) {
 			shapesList.remove(building2);
-			score+=8;
-			
+			score += 8;
+			if(score > 15)
+				currentStatus = Status.WON;
 		}
-		
-		
-		if(collision.verifyCollisionCannonballBuilding(tank, building3)) {
+
+		if (collision.verifyCollisionCannonballBuilding(building3)) {
 			shapesList.remove(building3);
-			score+=8;
+			score += 8;
+			if(score > 15)
+				currentStatus = Status.WON;
 		}
-	
-		collision.veryfyCollisionCannonballWall(tank, barrier);
-		if(collision.verifyCollisionMissileTank(jet1, tank) || collision.verifyCollisionMissileTank(jet2, tank)) {
-			//gameOver//Cambio de pantalla
+
+		collision.veryfyCollisionCannonballWall(barrier);
+		
+		if (collision.verifyCollisionMissileTank(jet1) || collision.verifyCollisionMissileTank(jet2)) {
 			life--;
+			if (life < 1)
+				currentStatus = Status.GAME_OVER;
+			else
+				currentStatus = Status.LOST;
 		}
-	
+
 	}
-	
+
 	private void updateDisplayStatus() {
 		powerDisplay.setMagnitude(tank.getPower());
 		angleDisplay.setMagnitude(tank.getAngle());
@@ -221,50 +259,60 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
-		int dx = 0;
-		
-		switch (e.getKeyCode()) {
-			case KeyEvent.VK_RIGHT:
-				if (tank.getX() < 500) {
-					dx = TANK_VELOCITY;
-				} else {
-					dx = 0;
-					tank.setX(500);
-				}
-				tank.setDx(dx);
-				break;
-			case KeyEvent.VK_LEFT:
-				if (tank.getX() > 0) {
-					dx = -TANK_VELOCITY;
-				} else {
-					dx = 0;
-					tank.setX(0);
-				}
-				tank.setDx(dx);
-				break;
-			case KeyEvent.VK_UP:
-				tank.modifyAngle(TILT_STEP);
-				break;
-			case KeyEvent.VK_DOWN:
-				tank.modifyAngle(-TILT_STEP);
-				break;
-			case KeyEvent.VK_F1:
-				tank.setPower(1);
-				break;
-			case KeyEvent.VK_F2:
-				tank.setPower(2);
-				break;
-			case KeyEvent.VK_F3:
-				tank.setPower(3);
-				break;
-			case KeyEvent.VK_F4:
-				tank.setPower(4);
-				break;
-			case KeyEvent.VK_F5:
-				tank.setPower(5);
-				break;
-			case KeyEvent.VK_SPACE:
-				tank.fire();
+		if (currentStatus == Status.LOST && e.getKeyCode() == KeyEvent.VK_ENTER) {
+			currentStatus = Status.PLAYING;
+		} else if ((currentStatus == Status.GAME_OVER || currentStatus == Status.WON) && e.getKeyCode() == KeyEvent.VK_ENTER) {
+			life = 3;
+			score = 0;
+			spritesList.clear();
+			shapesList.clear();
+			initComponents();
+			currentStatus = Status.PLAYING;
+		} else if (currentStatus == Status.PLAYING) {
+			int dx = 0;
+			switch (e.getKeyCode()) {
+				case KeyEvent.VK_RIGHT:
+					if (tank.getX() < 500) {
+						dx = TANK_VELOCITY;
+					} else {
+						dx = 0;
+						tank.setX(500);
+					}
+					tank.setDx(dx);
+					break;
+				case KeyEvent.VK_LEFT:
+					if (tank.getX() > 0) {
+						dx = -TANK_VELOCITY;
+					} else {
+						dx = 0;
+						tank.setX(0);
+					}
+					tank.setDx(dx);
+					break;
+				case KeyEvent.VK_UP:
+					tank.modifyAngle(TILT_STEP);
+					break;
+				case KeyEvent.VK_DOWN:
+					tank.modifyAngle(-TILT_STEP);
+					break;
+				case KeyEvent.VK_F1:
+					tank.setPower(1);
+					break;
+				case KeyEvent.VK_F2:
+					tank.setPower(2);
+					break;
+				case KeyEvent.VK_F3:
+					tank.setPower(3);
+					break;
+				case KeyEvent.VK_F4:
+					tank.setPower(4);
+					break;
+				case KeyEvent.VK_F5:
+					tank.setPower(5);
+					break;
+				case KeyEvent.VK_SPACE:
+					tank.fire();
+			}
 		}
 	}
 
