@@ -52,17 +52,20 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private int height;
 	private Tank tank;
 	private int score;
+	private int life;
 	private final int TANK_VELOCITY = 2;
 	private final int TILT_STEP = 5;
 	private final int STATUS_DISPLAY_Y = 470;
 	private final int POWER_DISPLAY_X = 30;
 	private final int ANGLE_DISPLAY_X = 150;
 	private final int SCORE_DISPLAY_X = 700;
+	private final int LIFE_DISPLAY_X = 600;
 	private List<Sprite> spritesList;
 	private List<Shape> shapesList;
 	private StatusDisplay powerDisplay;
 	private StatusDisplay angleDisplay;
 	private StatusDisplay scoreDisplay;
+	private StatusDisplay lifeDisplay;
 	private Structure building1;
 	private Structure building2;
 	private Structure building3;
@@ -119,10 +122,11 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		jet2 = new Jet(500, 150, 5);
 		spritesList.add(jet1);
 		spritesList.add(jet2);
-
+        life = 3;
 		powerDisplay = new StatusDisplay(POWER_DISPLAY_X, STATUS_DISPLAY_Y, "POTENCIA");
 		angleDisplay = new StatusDisplay(ANGLE_DISPLAY_X, STATUS_DISPLAY_Y, "ANGULO");
 		scoreDisplay = new StatusDisplay(SCORE_DISPLAY_X, STATUS_DISPLAY_Y, "PUNTAJE");
+		lifeDisplay = new StatusDisplay(LIFE_DISPLAY_X, STATUS_DISPLAY_Y, "VIDAS");
 		building1 = new Structure(690, 290, Color.BLUE);
 		building2 = new Structure(750, 290, Color.BLUE);
 		building3 = new Structure(620, 290, Color.BLUE);
@@ -130,6 +134,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		shapesList.add(powerDisplay);
 		shapesList.add(angleDisplay);
 		shapesList.add(scoreDisplay);
+		shapesList.add(lifeDisplay);
 		shapesList.add(building1);
 		shapesList.add(building2);
 		shapesList.add(building3);
@@ -155,36 +160,49 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		
 		if(collision.verifyCollisionCannonballJet(tank, jet1)) {
 			spritesList.remove(jet1);
+			score+=5;
 		}
+		
 		if(collision.verifyCollisionCannonballJet(tank, jet2)) {
 			spritesList.remove(jet2);
+			score+=7;
+			
 		}
+		
 		if(collision.verifyCollisionCannonballTank(tank)) {
-			score--;
+			life--;
 		}
 		if(collision.verifyCollisionCannonballBuilding(tank, building1)) {
 			shapesList.remove(building1);
+			score+=8;
+		
 		}
+		
 		if(collision.verifyCollisionCannonballBuilding(tank, building2)) {
 			shapesList.remove(building2);
+			score+=8;
+			
 		}
+		
+		
 		if(collision.verifyCollisionCannonballBuilding(tank, building3)) {
 			shapesList.remove(building3);
+			score+=8;
 		}
-		//verifyCollisionMissileTank();
-		//verifyCannonballStatus();
+	
 		collision.veryfyCollisionCannonballWall(tank, barrier);
 		if(collision.verifyCollisionMissileTank(jet1, tank) || collision.verifyCollisionMissileTank(jet2, tank)) {
-			//gameOver;
-			score--;
+			//gameOver//Cambio de pantalla
+			life--;
 		}
-		//veryfyCollisionCannonballWall();
+	
 	}
 	
 	private void updateDisplayStatus() {
 		powerDisplay.setMagnitude(tank.getPower());
 		angleDisplay.setMagnitude(tank.getAngle());
 		scoreDisplay.setMagnitude(score);
+		lifeDisplay.setMagnitude(life);
 	}
 
 	/*
