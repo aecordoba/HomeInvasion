@@ -183,14 +183,18 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	private void updateSpritesStatus() {
 		if (collision.verifyCollisionCannonballJet(jet1)) {
-			spritesList.remove(jet1);
+			//spritesList.remove(jet1);
+			jet1.setX(800);
+			jet1.setY(100);
 			score += 5;
 			if(score > 15)
 				currentStatus = Status.WON;
 		}
 
 		if (collision.verifyCollisionCannonballJet(jet2)) {
-			spritesList.remove(jet2);
+			//spritesList.remove(jet2);
+			jet2.setX(800);
+			jet2.setY(150);
 			score += 7;
 			if(score > 15)
 				currentStatus = Status.WON;

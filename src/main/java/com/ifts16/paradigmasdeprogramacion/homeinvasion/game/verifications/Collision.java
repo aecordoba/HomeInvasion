@@ -40,6 +40,7 @@ public class Collision {
 			Rectangle rectangle2 = tank.getBounds();
 			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
 				collision = true;
+				tank.remove(cannonball);
 			}
 		}
 		return collision;
@@ -64,6 +65,7 @@ public class Collision {
 				collision = true;
 				structure.setX(0);
 				structure.setY(0);
+				tank.remove(cannonball);
 			}
 		}
 		return collision;

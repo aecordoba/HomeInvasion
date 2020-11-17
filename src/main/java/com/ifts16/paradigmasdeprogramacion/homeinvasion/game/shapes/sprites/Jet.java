@@ -58,7 +58,7 @@ public class Jet extends Sprite {
 	@Override
 	public void move() {
 		setX((int) (getX() - getDx()));
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 30; i++) {
 			if (getX() == (int) (Math.random() * 800)) {
 				addMissile();
 			}
