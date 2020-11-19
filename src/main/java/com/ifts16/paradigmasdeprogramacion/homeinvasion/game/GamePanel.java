@@ -42,6 +42,7 @@ import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Structure;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Jet;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Sprite;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Tank;
+import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sounds.Sound;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.verifications.Collision;
 
 /**
@@ -83,6 +84,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private Jet jet1;
 	private Jet jet2;
 	private Collision collision;
+	private Sound sounds;
 
 	public GamePanel(int width, int height) {
 		this.width = width;
@@ -92,6 +94,8 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		spritesList = new ArrayList<>();
 		shapesList = new ArrayList<>();
 		initComponents();
+		addSounds();
+		sounds.playSound("music");
 	}
 
 	@Override
@@ -132,6 +136,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		while (true) {
 			if (currentStatus == Status.PLAYING)
 				updateScene();
+			
 			repaint();
 			waitToMove(40);
 		}
@@ -164,8 +169,20 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		shapesList.add(building2);
 		shapesList.add(building3);
 		shapesList.add(barrier);
+		
 	}
 
+	private void addSounds() {
+		try {
+			sounds = new Sound();
+			sounds.addSound("bomb", "sounds/bomb.wav");
+			sounds.addSound("music", "sounds/HeroicIntrusion.wav");
+			
+		} catch (Exception e1) {
+			throw new RuntimeException(e1);
+		}
+	}
+	
 	private void updateScene() {
 		updateSpritesStatus();
 		for (Sprite sprite : spritesList)
@@ -184,15 +201,19 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private void updateSpritesStatus() {
 		if (collision.verifyCollisionCannonballJet(jet1)) {
 			//spritesList.remove(jet1);
+			sounds.playSound("bomb");
 			jet1.setX(800);
 			jet1.setY(100);
 			score += 5;
+			
 			if(score > 15)
 				currentStatus = Status.WON;
+			
 		}
 
 		if (collision.verifyCollisionCannonballJet(jet2)) {
 			//spritesList.remove(jet2);
+			sounds.playSound("bomb");
 			jet2.setX(800);
 			jet2.setY(150);
 			score += 7;
@@ -208,6 +229,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 				currentStatus = Status.LOST;
 		}
 		if (collision.verifyCollisionCannonballBuilding(building1)) {
+			sounds.playSound("bomb");
 			shapesList.remove(building1);
 			score += 8;
 			if(score > 15)
@@ -215,6 +237,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		}
 
 		if (collision.verifyCollisionCannonballBuilding(building2)) {
+			sounds.playSound("bomb");
 			shapesList.remove(building2);
 			score += 8;
 			if(score > 15)
@@ -222,6 +245,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		}
 
 		if (collision.verifyCollisionCannonballBuilding(building3)) {
+			sounds.playSound("bomb");
 			shapesList.remove(building3);
 			score += 8;
 			if(score > 15)
