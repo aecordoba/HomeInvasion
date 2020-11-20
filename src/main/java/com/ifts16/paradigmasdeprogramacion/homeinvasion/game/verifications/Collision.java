@@ -17,7 +17,7 @@ public class Collision {
 	}
 	
 	public boolean verifyCollisionCannonballJet(Jet jet) {
-		ArrayList<Cannonball> cannonList = tank.returnList();
+		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
 		boolean collision = false;
 		for (Cannonball cannonball : cannonList) {
 			Rectangle rectangle1 = cannonball.getBounds();
@@ -32,7 +32,7 @@ public class Collision {
 	}
 
 	public boolean verifyCollisionCannonballTank() {
-		ArrayList<Cannonball> cannonList = tank.returnList();
+		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
 		boolean collision = false;
 		for (Cannonball cannonball : cannonList) {
 			Rectangle rectangle1 = cannonball.getBounds();
@@ -46,7 +46,7 @@ public class Collision {
 	}
 
 	public void verifyCannonballStatus() {
-		ArrayList<Cannonball> cannonList = tank.returnList();
+		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
 		for (Cannonball cannonball : cannonList) {
 			if (cannonball.getX() > 800) {
 				tank.remove(cannonball);
@@ -55,7 +55,7 @@ public class Collision {
 	}
 
 	public boolean verifyCollisionCannonballBuilding(Structure structure) {
-		ArrayList<Cannonball> cannonList = tank.returnList();
+		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
 		boolean collision = false;
 		for (Cannonball cannonball : cannonList) {
 			Rectangle rectangle1 = cannonball.getBounds();
@@ -69,7 +69,7 @@ public class Collision {
 	}
 
 	public void veryfyCollisionCannonballWall(Structure barrier) {
-		ArrayList<Cannonball> cannonList = tank.returnList();
+		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
 		for (Cannonball cannonball : cannonList) {
 			Rectangle rectangle1 = cannonball.getBounds();
 			Rectangle rectangle2 = barrier.getBounds();
