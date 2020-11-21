@@ -34,17 +34,13 @@ import java.util.List;
  *
  */
 public class Jet extends Sprite {
-
-	/**
-	 * @param x
-	 * @param y
-	 * @param dx
-	 * @param dy
-	 */
+	private static final int VELOCITY = 5;
+	private static final int MAX_ALTITUDE = 50;
+	private static final int MIN_ALTITUDE = 200;
 	private List<Missile> missiles;
 
-	public Jet(int x, int y, double dx) {
-		super(x, y, dx, 0);
+	public Jet() {
+		super((int) ((Math.random() * 300) + 500), (int) ((Math.random() * (MIN_ALTITUDE - MAX_ALTITUDE)) + MAX_ALTITUDE), VELOCITY, 0);
 		missiles = new ArrayList<Missile>();
 	}
 
@@ -68,7 +64,7 @@ public class Jet extends Sprite {
 				missile.move();
 			}
 		}
-		if (getX() == 0) {
+		if (getX() <= 0) {
 			this.setX(800);
 		}
 	}
@@ -99,7 +95,12 @@ public class Jet extends Sprite {
 		}
 	}
 
-	public void addMissile() {
+	public void reset() {
+		setX(800);
+		setY((int) ((Math.random() * (MIN_ALTITUDE - MAX_ALTITUDE)) + MAX_ALTITUDE));
+	}
+	
+	private void addMissile() {
 		missiles.add(new Missile(getX(), getY()));
 	}
 
@@ -111,6 +112,7 @@ public class Jet extends Sprite {
 		return missilesList;
 	}
 
+	@Override
 	public Rectangle getBounds() {
 		Rectangle rectangle = new Rectangle(getX(), getY(), 57, 15);
 		return rectangle;

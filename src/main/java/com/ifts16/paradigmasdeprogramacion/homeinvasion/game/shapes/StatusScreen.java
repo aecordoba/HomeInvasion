@@ -33,13 +33,27 @@ import java.awt.Graphics2D;
  */
 public class StatusScreen implements Drawable {
 	private String statusString;
-	
-	public StatusScreen(String statusString) {
+	private String informationString;
+	private String commandString;
+
+	/**
+	 * @param statusString
+	 * @param informationString
+	 * @param commandString
+	 */
+	public StatusScreen(String statusString, String informationString, String commandString) {
+		super();
 		this.statusString = statusString;
+		this.informationString = informationString;
+		this.commandString = commandString;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Drawable#draw(java.awt.Graphics2D)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Drawable#
+	 * draw(java.awt.Graphics2D)
 	 */
 	@Override
 	public void draw(Graphics2D g2d) {
@@ -53,6 +67,26 @@ public class StatusScreen implements Drawable {
 		int x = (800 - stringWidth) / 2;
 		int y = (500 - stringHeight) / 2;
 		g2d.drawString(statusString, x, y);
+
+		if (informationString != null) {
+			g2d.setColor(Color.CYAN);
+			font = new Font("Dialog", Font.PLAIN, 20);
+			g2d.setFont(font);
+			metrics = g2d.getFontMetrics(font);
+			stringWidth = metrics.stringWidth(informationString);
+			x = (800 - stringWidth) / 2;
+			g2d.drawString(informationString, x, y + 50);
+		}
+
+		if (commandString != null) {
+			g2d.setColor(Color.WHITE);
+			font = new Font("Dialog", Font.PLAIN, 15);
+			g2d.setFont(font);
+			metrics = g2d.getFontMetrics(font);
+			stringWidth = metrics.stringWidth(commandString);
+			x = (800 - stringWidth) / 2;
+			g2d.drawString(commandString, x, y + 100);
+		}
 	}
 
 }

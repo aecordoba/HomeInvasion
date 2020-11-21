@@ -26,7 +26,7 @@ public class Tank extends Sprite {
 		angle = 0;
 		power = 1;
 		this.gap = range - TOTAL_LENGTH;
-		color = new Color(0, 102, 102);
+		color = new Color(51, 102, 0);
 		ballList = new ArrayList<>();
 	}
 
@@ -100,10 +100,23 @@ public class Tank extends Sprite {
 
 	public void decreaseIntegrity() {
 		integrity -= 25;
+		checkIntegrityAndPower();
+	}
+
+	private void checkIntegrityAndPower() {
+		if (integrity < 75) {
+			color = new Color(0, 26, 26);
+			if (power > 3)
+				power = 3;
+		} else if (integrity >= 75 && integrity < 100) {
+			color = new Color(0, 51, 51);
+			if (power > 4)
+				power = 4;
+		}
 	}
 
 	public void fire() {
-		ballList.add(new Cannonball((int) (getX() + TOTAL_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getY() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))), power + 4, angle));
+		ballList.add(new Cannonball((int) (getX() + LENGTH / 2 + CANNON_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getY() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))), power + 4, angle));
 	}
 
 	public ArrayList<Cannonball> getCannonballsList() {
@@ -139,5 +152,6 @@ public class Tank extends Sprite {
 
 	public void setPower(int power) {
 		this.power = power;
+		checkIntegrityAndPower();
 	}
 }

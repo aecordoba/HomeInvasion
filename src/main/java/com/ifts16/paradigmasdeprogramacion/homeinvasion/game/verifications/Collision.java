@@ -3,6 +3,7 @@ package com.ifts16.paradigmasdeprogramacion.homeinvasion.game.verifications;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Barrier;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Structure;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Cannonball;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Jet;
@@ -68,7 +69,7 @@ public class Collision {
 		return collision;
 	}
 
-	public void veryfyCollisionCannonballWall(Structure barrier) {
+	public void veryfyCollisionCannonballBarrier(Structure barrier) {
 		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
 		for (Cannonball cannonball : cannonList) {
 			Rectangle rectangle1 = cannonball.getBounds();

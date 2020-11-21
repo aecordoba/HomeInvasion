@@ -31,39 +31,66 @@ import java.awt.Rectangle;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  *
  */
-public class StatusDisplay extends Shape {
-	private String text;
-	private int magnitude;
-	private final Color COLOR;
+public class StatusDisplay implements Drawable {
+	private static final int STATUS_DISPLAY_Y = 470;
+	private static final int POWER_DISPLAY_X = 30;
+	private static final int ANGLE_DISPLAY_X = 150;
+	private static final int SCORE_DISPLAY_X = 700;
+	private static final int INTEGRITY_DISPLAY_X = 500;
+	private static final Color COLOR = Color.BLACK;
 	private final Font FONT;
+	private int power;
+	private int angle;
+	private int integrity;
+	private int score;
 
-	/**
-	 * @param x
-	 * @param y
-	 */
-	public StatusDisplay(int x, int y, String text) {
-		super(x, y);
-		this.text = text;
-		COLOR = Color.BLACK;
+	public StatusDisplay() {
 		FONT = new Font("Dialog", Font.BOLD, 13);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Shape#draw(java.awt.Graphics2D)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Shape#draw(
+	 * java.awt.Graphics2D)
 	 */
 	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(COLOR);
 		g2d.setFont(FONT);
-		g2d.drawString(text + ": " + magnitude, getX(), getY());
+		g2d.drawString("POTENCIA: " + power, POWER_DISPLAY_X, STATUS_DISPLAY_Y);
+		g2d.drawString("ANGULO: " + angle, ANGLE_DISPLAY_X, STATUS_DISPLAY_Y);
+		g2d.drawString("INTEGRIDAD: " + integrity + "%", INTEGRITY_DISPLAY_X, STATUS_DISPLAY_Y);
+		g2d.drawString("PUNTAJE: " + score, SCORE_DISPLAY_X, STATUS_DISPLAY_Y);
 	}
 
-	public void setMagnitude(int magnitude) {
-		this.magnitude = magnitude;
+	/**
+	 * @param power the power to set
+	 */
+	public void setPower(int power) {
+		this.power = power;
 	}
-	
-	public Rectangle getBounds() {
-		Rectangle rectangle = new Rectangle(getX(), getY(), 0, 0);
-		return rectangle;
+
+	/**
+	 * @param angle the angle to set
+	 */
+	public void setAngle(int angle) {
+		this.angle = angle;
 	}
+
+	/**
+	 * @param integrity the integrity to set
+	 */
+	public void setIntegrity(int integrity) {
+		this.integrity = integrity;
+	}
+
+	/**
+	 * @param score the score to set
+	 */
+	public void setScore(int score) {
+		this.score = score;
+	}
+
 }

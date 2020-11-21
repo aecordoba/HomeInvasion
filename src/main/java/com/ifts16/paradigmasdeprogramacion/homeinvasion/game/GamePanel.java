@@ -35,7 +35,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Shape;
+import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Barrier;
+import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Building;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.StatusDisplay;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.StatusScreen;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Structure;
@@ -57,42 +58,28 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	};
 
 	private Status currentStatus;
-	private final int STATUS_DISPLAY_Y = 470;
-	private final int POWER_DISPLAY_X = 30;
-	private final int ANGLE_DISPLAY_X = 150;
-	private final int SCORE_DISPLAY_X = 700;
-	private final int INTEGRITY_DISPLAY_X = 500;
 	private final int BARRIER_X = 550;
-
 	private int width;
 	private int height;
 	private Tank tank;
+	private Structure ground;
 	private int score;
 	private List<Sprite> spritesList;
-	private List<Shape> shapesList;
-	private StatusDisplay powerDisplay;
-	private StatusDisplay angleDisplay;
-	private StatusDisplay scoreDisplay;
-	private StatusDisplay integrityDisplay;
-	private Structure building1;
-	private Structure building2;
-	private Structure building3;
-	private Structure barrier;
-	private Structure ground;
-	private Jet jet1;
-	private Jet jet2;
+	private List<Structure> structuresList;
+	private StatusDisplay statusDisplay;
 	private Collision collision;
-	private Sound sounds;
+	private Sound sound;
 
 	public GamePanel(int width, int height) {
 		this.width = width;
 		this.height = height;
 		currentStatus = Status.PLAYING;
 		spritesList = new ArrayList<>();
-		shapesList = new ArrayList<>();
+		structuresList = new ArrayList<>();
+
 		initComponents();
-		addSounds();
-		sounds.playSound("music");
+		sound = new Sound();
+		sound.play("music", true);
 	}
 
 	private void initComponents() {
@@ -100,28 +87,15 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		tank = new Tank(0, 443, BARRIER_X);
 		collision = new Collision(tank);
 		spritesList.add(tank);
-		jet1 = new Jet(800, 100, 5);
-		jet2 = new Jet(500, 150, 5);
-		spritesList.add(jet1);
-		spritesList.add(jet2);
-		powerDisplay = new StatusDisplay(POWER_DISPLAY_X, STATUS_DISPLAY_Y, "POTENCIA");
-		angleDisplay = new StatusDisplay(ANGLE_DISPLAY_X, STATUS_DISPLAY_Y, "ANGULO");
-		scoreDisplay = new StatusDisplay(SCORE_DISPLAY_X, STATUS_DISPLAY_Y, "PUNTAJE");
-		integrityDisplay = new StatusDisplay(INTEGRITY_DISPLAY_X, STATUS_DISPLAY_Y, "INTEGRIDAD");
-		building1 = new Structure(690, 290, Color.BLUE);
-		building2 = new Structure(750, 290, Color.BLUE);
-		building3 = new Structure(620, 290, Color.BLUE);
-		barrier = new Structure(BARRIER_X, 290, Color.RED);
+		spritesList.add(new Jet());
+		spritesList.add(new Jet());
+		structuresList.add(new Building(690, 320));
+		structuresList.add(new Building(750, 320));
+		structuresList.add(new Building(620, 320));
+		structuresList.add(new Barrier(BARRIER_X, 290));
+
 		ground = new Structure(0, 450, 800, 500, Color.GREEN);
-		shapesList.add(ground);
-		shapesList.add(powerDisplay);
-		shapesList.add(angleDisplay);
-		shapesList.add(scoreDisplay);
-		shapesList.add(integrityDisplay);
-		shapesList.add(building1);
-		shapesList.add(building2);
-		shapesList.add(building3);
-		shapesList.add(barrier);
+		statusDisplay = new StatusDisplay();
 	}
 
 	@Override
@@ -130,19 +104,21 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		Graphics2D g2d = (Graphics2D) g;
 
 		if (currentStatus == Status.PLAYING) {
-			GradientPaint redtowhite = new GradientPaint(0, 0, Color.BLUE, 0, 500, Color.WHITE);
-			g2d.setPaint(redtowhite);
+			GradientPaint blueToWhite = new GradientPaint(0, 0, Color.BLUE, 0, 500, Color.WHITE);
+			g2d.setPaint(blueToWhite);
 			g2d.fill(new Rectangle(0, 0, width, height));
+			ground.draw(g2d);
+			statusDisplay.draw(g2d);
 			for (Sprite sprite : spritesList)
 				sprite.draw(g2d);
-			for (Shape shape : shapesList)
-				shape.draw(g2d);
+			for (Structure structure : structuresList)
+				structure.draw(g2d);
 		} else if (currentStatus == Status.LOST) {
-			new StatusScreen("TANQUE DETERIORADO").draw(g2d);
+			new StatusScreen("TANQUE DETERIORADO", "Estado del tanque: " + tank.getIntegrity() + "%", "Enter para continuar.").draw(g2d);
 		} else if (currentStatus == Status.GAME_OVER) {
-			new StatusScreen("JUEGO TERMINADO").draw(g2d);
+			new StatusScreen("JUEGO TERMINADO", "Puntaje obtenido: " + score, "Enter para continuar. / Esc para terminar.").draw(g2d);
 		} else if (currentStatus == Status.WON) {
-			new StatusScreen("USTED GANA").draw(g2d);
+			new StatusScreen("USTED GANA", "Puntaje obtenido: " + score, "Enter para continuar. / Esc para terminar.").draw(g2d);
 		}
 	}
 
@@ -151,34 +127,19 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		return new Dimension(width, height);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
 	@Override
 	public void run() {
 		while (true) {
 			if (currentStatus == Status.PLAYING)
 				updateScene();
-
 			repaint();
 			waitToMove(40);
 		}
 	}
 
-	private void addSounds() {
-		try {
-			sounds = new Sound();
-			sounds.addSound("bomb", "sounds/bomb.wav");
-			sounds.addSound("music", "sounds/HeroicIntrusion.wav");
-		} catch (Exception e1) {
-			throw new RuntimeException(e1);
-		}
-	}
-
 	private void updateScene() {
 		updateSpritesStatus();
+		updateStructuresStatus();
 		for (Sprite sprite : spritesList)
 			sprite.move();
 		updateDisplayStatus();
@@ -193,72 +154,57 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	}
 
 	private void updateSpritesStatus() {
-		if (collision.verifyCollisionCannonballJet(jet1)) {
-			sounds.playSound("bomb");
-			jet1.setX(800);
-			jet1.setY(100);
-			score += 5;
-			if (score > 15)
-				currentStatus = Status.WON;
+		for (Sprite sprite : spritesList) {
+			if (sprite instanceof Jet) {
+				Jet jet = (Jet) sprite;
+				if (collision.verifyCollisionCannonballJet(jet)) {
+					sound.play("jet", false);
+					jet.reset();
+					score += 5;
+					if (score > 15)
+						currentStatus = Status.WON;
+				}
+				if (collision.verifyCollisionMissileTank(jet)) {
+					sound.play("tank", false);
+					tank.decreaseIntegrity();
+					if (tank.getIntegrity() <= 0)
+						currentStatus = Status.GAME_OVER;
+					else
+						currentStatus = Status.LOST;
+				}
+			}
 		}
-
-		if (collision.verifyCollisionCannonballJet(jet2)) {
-			sounds.playSound("bomb");
-			jet2.setX(800);
-			jet2.setY(150);
-			score += 7;
-			if (score > 15)
-				currentStatus = Status.WON;
-		}
-
 		if (collision.verifyCollisionCannonballTank()) {
+			sound.play("jet", false);
 			tank.decreaseIntegrity();
 			if (tank.getIntegrity() <= 0)
 				currentStatus = Status.GAME_OVER;
 			else
 				currentStatus = Status.LOST;
 		}
-		if (collision.verifyCollisionCannonballBuilding(building1)) {
-			sounds.playSound("bomb");
-			shapesList.remove(building1);
-			score += 8;
-			if (score > 15)
-				currentStatus = Status.WON;
+	}
+
+	private void updateStructuresStatus() {
+		for (Structure structure : structuresList) {
+			if (structure instanceof Building) {
+				Building building = (Building) structure;
+				if (collision.verifyCollisionCannonballBuilding(building)) {
+					sound.play("building", false);
+					building.destroy();
+					score += 8;
+					if (score > 15)
+						currentStatus = Status.WON;
+				}
+			} else if (structure instanceof Barrier)
+				collision.veryfyCollisionCannonballBarrier(structure);
 		}
-
-		if (collision.verifyCollisionCannonballBuilding(building2)) {
-			sounds.playSound("bomb");
-			shapesList.remove(building2);
-			score += 8;
-			if (score > 15)
-				currentStatus = Status.WON;
-		}
-
-		if (collision.verifyCollisionCannonballBuilding(building3)) {
-			sounds.playSound("bomb");
-			shapesList.remove(building3);
-			score += 8;
-			if (score > 15)
-				currentStatus = Status.WON;
-		}
-
-		collision.veryfyCollisionCannonballWall(barrier);
-
-		if (collision.verifyCollisionMissileTank(jet1) || collision.verifyCollisionMissileTank(jet2)) {
-			tank.decreaseIntegrity();
-			if (tank.getIntegrity() <= 0)
-				currentStatus = Status.GAME_OVER;
-			else
-				currentStatus = Status.LOST;
-		}
-
 	}
 
 	private void updateDisplayStatus() {
-		powerDisplay.setMagnitude(tank.getPower());
-		angleDisplay.setMagnitude(tank.getAngle());
-		scoreDisplay.setMagnitude(score);
-		integrityDisplay.setMagnitude(tank.getIntegrity());
+		statusDisplay.setPower(tank.getPower());
+		statusDisplay.setAngle(tank.getAngle());
+		statusDisplay.setScore(score);
+		statusDisplay.setIntegrity(tank.getIntegrity());
 	}
 
 	/*
@@ -280,13 +226,20 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	public void keyPressed(KeyEvent e) {
 		if (currentStatus == Status.LOST && e.getKeyCode() == KeyEvent.VK_ENTER) {
 			currentStatus = Status.PLAYING;
-		} else if ((currentStatus == Status.GAME_OVER || currentStatus == Status.WON) && e.getKeyCode() == KeyEvent.VK_ENTER) {
-			tank.resetIntegrity();
-			score = 0;
-			spritesList.clear();
-			shapesList.clear();
-			initComponents();
-			currentStatus = Status.PLAYING;
+		} else if ((currentStatus == Status.GAME_OVER || currentStatus == Status.WON)) {
+			switch (e.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					System.exit(0);
+					break;
+				case KeyEvent.VK_ENTER:
+					tank.resetIntegrity();
+					score = 0;
+					spritesList.clear();
+					structuresList.clear();
+					initComponents();
+					currentStatus = Status.PLAYING;
+					break;
+			}
 		} else if (currentStatus == Status.PLAYING) {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_RIGHT:
@@ -322,11 +275,6 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
-	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_LEFT) {
