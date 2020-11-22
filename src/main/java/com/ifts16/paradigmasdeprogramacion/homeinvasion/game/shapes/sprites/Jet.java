@@ -37,20 +37,13 @@ public class Jet extends Sprite {
 	private static final int VELOCITY = 5;
 	private static final int MAX_ALTITUDE = 50;
 	private static final int MIN_ALTITUDE = 200;
-	private List<Missile> missiles;
+	private List<Missile> missilesList;
 
 	public Jet() {
 		super((int) ((Math.random() * 300) + 500), (int) ((Math.random() * (MIN_ALTITUDE - MAX_ALTITUDE)) + MAX_ALTITUDE), VELOCITY, 0);
-		missiles = new ArrayList<Missile>();
+		missilesList = new ArrayList<Missile>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#move
-	 * ()
-	 */
 	@Override
 	public void move() {
 		setX((int) (getX() - getDx()));
@@ -60,7 +53,7 @@ public class Jet extends Sprite {
 			}
 		}
 		if (getX() < 800) {
-			for (Missile missile : missiles) {
+			for (Missile missile : missilesList) {
 				missile.move();
 			}
 		}
@@ -69,13 +62,6 @@ public class Jet extends Sprite {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#draw
-	 * (java.awt.Graphics2D)
-	 */
 	@Override
 	public void draw(Graphics2D g2d) {
 		int x = getX();
@@ -90,31 +76,31 @@ public class Jet extends Sprite {
 		path.closePath();
 		g2d.fill(path);
 
-		for (Missile missile : missiles) {
+		for (Missile missile : missilesList) {
 			missile.draw(g2d);
 		}
-	}
-
-	public void reset() {
-		setX(800);
-		setY((int) ((Math.random() * (MIN_ALTITUDE - MAX_ALTITUDE)) + MAX_ALTITUDE));
-	}
-	
-	private void addMissile() {
-		missiles.add(new Missile(getX(), getY()));
-	}
-
-	public ArrayList<Missile> getMissilesList() {
-		ArrayList<Missile> missilesList = new ArrayList<Missile>();
-		for (Missile missile : missiles) {
-			missilesList.add(missile);
-		}
-		return missilesList;
 	}
 
 	@Override
 	public Rectangle getBounds() {
 		Rectangle rectangle = new Rectangle(getX(), getY(), 57, 15);
 		return rectangle;
+	}
+
+	public void reset() {
+		setX(800);
+		setY((int) ((Math.random() * (MIN_ALTITUDE - MAX_ALTITUDE)) + MAX_ALTITUDE));
+	}
+
+	private void addMissile() {
+		missilesList.add(new Missile(getX(), getY()));
+	}
+
+	public List<Missile> getMissilesList() {
+		return missilesList;
+	}
+	
+	public void remove(Missile missile) {
+		missilesList.remove(missile);
 	}
 }

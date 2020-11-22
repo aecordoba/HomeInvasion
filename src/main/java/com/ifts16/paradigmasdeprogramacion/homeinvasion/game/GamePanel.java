@@ -35,7 +35,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Barrier;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Building;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.StatusDisplay;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.StatusScreen;
@@ -47,11 +46,14 @@ import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sounds.Sound;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.verifications.Collision;
 
 /**
+ * Representación del panel principal del juego.
  * @author Adrián E. Córdoba [software.asia@gmail.com]
- *
  */
 public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private static final long serialVersionUID = 1L;
+	private static final int BUILDING_VALUE = 5;
+	private static final int JET_VALUE = 8;
+	private static final int WINNER_SCORE = 15;
 
 	enum Status {
 		PLAYING, LOST, GAME_OVER, WON
@@ -62,7 +64,6 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private int width;
 	private int height;
 	private Tank tank;
-	private Structure ground;
 	private int score;
 	private List<Sprite> spritesList;
 	private List<Structure> structuresList;
@@ -92,9 +93,8 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		structuresList.add(new Building(690, 320));
 		structuresList.add(new Building(750, 320));
 		structuresList.add(new Building(620, 320));
-		structuresList.add(new Barrier(BARRIER_X, 290));
-
-		ground = new Structure(0, 450, 800, 500, Color.GREEN);
+		structuresList.add(new Structure(BARRIER_X, 290, 585, 450, Color.RED)); // Barrier
+		structuresList.add(new Structure(0, 450, 800, 500, Color.GREEN)); // Ground
 		statusDisplay = new StatusDisplay();
 	}
 
@@ -107,12 +107,11 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 			GradientPaint blueToWhite = new GradientPaint(0, 0, Color.BLUE, 0, 500, Color.WHITE);
 			g2d.setPaint(blueToWhite);
 			g2d.fill(new Rectangle(0, 0, width, height));
-			ground.draw(g2d);
-			statusDisplay.draw(g2d);
 			for (Sprite sprite : spritesList)
 				sprite.draw(g2d);
 			for (Structure structure : structuresList)
 				structure.draw(g2d);
+			statusDisplay.draw(g2d);
 		} else if (currentStatus == Status.LOST) {
 			new StatusScreen("TANQUE DETERIORADO", "Estado del tanque: " + tank.getIntegrity() + "%", "Enter para continuar.").draw(g2d);
 		} else if (currentStatus == Status.GAME_OVER) {
@@ -160,28 +159,24 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 				if (collision.verifyCollisionCannonballJet(jet)) {
 					sound.play("jet", false);
 					jet.reset();
-					score += 5;
-					if (score > 15)
+					score += JET_VALUE;
+					if (score > WINNER_SCORE)
 						currentStatus = Status.WON;
 				}
 				if (collision.verifyCollisionMissileTank(jet)) {
-					sound.play("tank", false);
-					tank.decreaseIntegrity();
-					if (tank.getIntegrity() <= 0)
-						currentStatus = Status.GAME_OVER;
-					else
-						currentStatus = Status.LOST;
+					deteriorateTank();
 				}
 			}
 		}
 		if (collision.verifyCollisionCannonballTank()) {
-			sound.play("jet", false);
-			tank.decreaseIntegrity();
-			if (tank.getIntegrity() <= 0)
-				currentStatus = Status.GAME_OVER;
-			else
-				currentStatus = Status.LOST;
+			deteriorateTank();
 		}
+	}
+
+	private void deteriorateTank() {
+		sound.play("tank", false);
+		tank.decreaseIntegrity();
+		currentStatus = (tank.getIntegrity() <= 0) ? currentStatus.GAME_OVER : currentStatus.LOST;
 	}
 
 	private void updateStructuresStatus() {
@@ -191,12 +186,12 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 				if (collision.verifyCollisionCannonballBuilding(building)) {
 					sound.play("building", false);
 					building.destroy();
-					score += 8;
-					if (score > 15)
+					score += BUILDING_VALUE;
+					if (score > WINNER_SCORE)
 						currentStatus = Status.WON;
 				}
-			} else if (structure instanceof Barrier)
-				collision.veryfyCollisionCannonballBarrier(structure);
+			} else if (structure instanceof Structure)
+				collision.veryfyCollisionCannonballStructure(structure);
 		}
 	}
 
@@ -207,21 +202,11 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		statusDisplay.setIntegrity(tank.getIntegrity());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
-	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// Not used.
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
-	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (currentStatus == Status.LOST && e.getKeyCode() == KeyEvent.VK_ENTER) {
