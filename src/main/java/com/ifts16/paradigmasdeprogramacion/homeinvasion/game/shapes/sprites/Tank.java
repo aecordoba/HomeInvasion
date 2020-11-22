@@ -6,12 +6,11 @@ import java.awt.Rectangle;
 import java.util.*;
 
 public class Tank extends Sprite {
-	public static final int TANK_VELOCITY = 2;
-	public static final int TILT_STEP = 5;
-	private final int LENGTH = 30;
-	private final int HEIGHT = 7;
-	private final int CANNON_LENGTH = 25;
-	private final int TOTAL_LENGTH = LENGTH / 2 + CANNON_LENGTH;
+	private static final int TANK_VELOCITY = 2;
+	private static final int TILT_STEP = 5;
+	private static final int LENGTH = 30;
+	private static final int HEIGHT = 7;
+	private static final int CANNON_LENGTH = 25;
 	private int gap;
 	private Color color;
 	private int integrity;
@@ -25,7 +24,7 @@ public class Tank extends Sprite {
 		integrity = 100;
 		angle = 0;
 		power = 1;
-		this.gap = range - TOTAL_LENGTH;
+		this.gap = range - LENGTH / 2 + CANNON_LENGTH;
 		color = new Color(51, 102, 0);
 		ballList = new ArrayList<>();
 	}
@@ -60,7 +59,7 @@ public class Tank extends Sprite {
 
 	@Override
 	public Rectangle getBounds() {
-		Rectangle rectangle = new Rectangle(getX(), getY(), 30, 7);
+		Rectangle rectangle = new Rectangle(getX(), getY(), LENGTH, HEIGHT);
 		return rectangle;
 	}
 
@@ -135,9 +134,6 @@ public class Tank extends Sprite {
 		integrity = 100;
 	}
 
-	/**
-	 * @return the integrity
-	 */
 	public int getIntegrity() {
 		return integrity;
 	}

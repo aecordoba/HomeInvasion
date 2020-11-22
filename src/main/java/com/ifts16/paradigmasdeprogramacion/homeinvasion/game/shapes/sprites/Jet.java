@@ -72,10 +72,8 @@ public class Jet extends Sprite {
 		path.lineTo(x + 50, y);
 		path.lineTo(x + 57, y - 15);
 		path.lineTo(x + 45, y - 5);
-
 		path.closePath();
 		g2d.fill(path);
-
 		for (Missile missile : missilesList) {
 			missile.draw(g2d);
 		}
@@ -98,9 +96,5 @@ public class Jet extends Sprite {
 
 	public List<Missile> getMissilesList() {
 		return missilesList;
-	}
-	
-	public void remove(Missile missile) {
-		missilesList.remove(missile);
 	}
 }

@@ -25,11 +25,9 @@ package com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
- *
  */
 public class StatusDisplay implements Drawable {
 	private static final int STATUS_DISPLAY_Y = 470;

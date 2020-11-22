@@ -54,13 +54,13 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private static final int BUILDING_VALUE = 5;
 	private static final int JET_VALUE = 8;
 	private static final int WINNER_SCORE = 15;
+	private static final int BARRIER_X = 550;
 
 	enum Status {
 		PLAYING, LOST, GAME_OVER, WON
 	};
 
 	private Status currentStatus;
-	private final int BARRIER_X = 550;
 	private int width;
 	private int height;
 	private Tank tank;
@@ -102,11 +102,10 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-
 		if (currentStatus == Status.PLAYING) {
 			GradientPaint blueToWhite = new GradientPaint(0, 0, Color.BLUE, 0, 500, Color.WHITE);
 			g2d.setPaint(blueToWhite);
-			g2d.fill(new Rectangle(0, 0, width, height));
+			g2d.fill(new Rectangle(0, 0, width, height));	// Sky
 			for (Sprite sprite : spritesList)
 				sprite.draw(g2d);
 			for (Structure structure : structuresList)
@@ -176,7 +175,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 	private void deteriorateTank() {
 		sound.play("tank", false);
 		tank.decreaseIntegrity();
-		currentStatus = (tank.getIntegrity() <= 0) ? currentStatus.GAME_OVER : currentStatus.LOST;
+		currentStatus = (tank.getIntegrity() <= 0) ? Status.GAME_OVER : Status.LOST;
 	}
 
 	private void updateStructuresStatus() {

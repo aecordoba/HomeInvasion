@@ -28,7 +28,6 @@ import java.awt.Rectangle;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
- *
  */
 public class Building extends Structure {
 	private static final Color color = Color.BLUE;

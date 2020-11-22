@@ -26,18 +26,11 @@ import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Shape;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
- *
  */
 public abstract class Sprite extends Shape {
 	private double dx;
 	private double dy;
 
-	/**
-	 * @param x
-	 * @param y
-	 * @param dx
-	 * @param dy
-	 */
 	public Sprite(int x, int y, double dx, double dy) {
 		super(x, y);
 		this.dx = dx;
@@ -46,33 +39,19 @@ public abstract class Sprite extends Shape {
 
 	public abstract void move();
 
-	/**
-	 * @return the dx
-	 */
 	public double getDx() {
 		return dx;
 	}
 
-	/**
-	 * @param dx the dx to set
-	 */
 	public void setDx(double dx) {
 		this.dx = dx;
 	}
 
-	/**
-	 * @return the dy
-	 */
 	public double getDy() {
 		return dy;
 	}
 
-	/**
-	 * @param dy the dy to set
-	 */
 	public void setDy(double dy) {
 		this.dy = dy;
 	}
-	
-
 }

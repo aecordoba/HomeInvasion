@@ -31,12 +31,10 @@ import java.awt.Image;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
- *
  */
 public class PresentationPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -44,9 +42,6 @@ public class PresentationPanel extends JPanel {
 	private int height;
 	private Image image;
 
-	/**
-	 * 
-	 */
 	public PresentationPanel(int width, int height) {
 		this.width = width;
 		this.height = height;

@@ -36,8 +36,8 @@ import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.GamePanel;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.presentation.PresentationPanel;
 
 /**
+ * Clase de inicio de la aplicación.
  * @author Adrián E. Córdoba [software.asia@gmail.com]
- *
  */
 public class HomeInvasion {
 	private static final int WIDTH = 800;
@@ -46,6 +46,7 @@ public class HomeInvasion {
 	private static JFrame mainFrame;
 
 	/**
+	 * Método de entrada de la aplicación.
 	 * @param args
 	 */
 	public static void main(String[] args) {

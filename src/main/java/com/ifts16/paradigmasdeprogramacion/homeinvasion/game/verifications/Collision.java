@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Building;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Structure;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Cannonball;
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Jet;
@@ -12,11 +13,11 @@ import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.sprites.Tank
 
 public class Collision {
 	private Tank tank;
-	
+
 	public Collision(Tank tank) {
 		this.tank = tank;
 	}
-	
+
 	public boolean verifyCollisionCannonballJet(Jet jet) {
 		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
 		boolean collision = false;
@@ -26,7 +27,7 @@ public class Collision {
 			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
 				collision = true;
 				tank.remove(cannonball);
-				
+
 			}
 		}
 		return collision;
@@ -46,12 +47,12 @@ public class Collision {
 		return collision;
 	}
 
-	public boolean verifyCollisionCannonballBuilding(Structure structure) {
+	public boolean verifyCollisionCannonballBuilding(Building building) {
 		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
 		boolean collision = false;
 		for (Cannonball cannonball : cannonList) {
 			Rectangle rectangle1 = cannonball.getBounds();
-			Rectangle rectangle2 = structure.getBounds();
+			Rectangle rectangle2 = building.getBounds();
 			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
 				collision = true;
 				tank.remove(cannonball);

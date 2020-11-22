@@ -12,7 +12,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
 public class Sound {
-
 	private Map<String, byte[]> sounds;
 
 	public Sound() {

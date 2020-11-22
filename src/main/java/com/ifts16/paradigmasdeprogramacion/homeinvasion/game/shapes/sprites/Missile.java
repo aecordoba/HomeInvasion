@@ -33,29 +33,18 @@ import java.awt.Rectangle;
  */
 public class Missile extends Sprite {
 	private BasicStroke stroke;
-	/**
-	 * @param x
-	 * @param y
-	 * @param dx
-	 * @param dy
-	 */
+	
 	public Missile(int x, int y) {
 		super(x, y, 7, 5);
 		stroke = new BasicStroke(2);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#move()
-	 */
 	@Override
 	public void move() {
 		setX((int)(getX() - getDx()));
 		setY((int)(getY() + getDy()));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#draw(java.awt.Graphics2D)
-	 */
 	@Override
 	public void draw(Graphics2D g2d) {
 		int x = getX();
@@ -65,6 +54,7 @@ public class Missile extends Sprite {
 		g2d.drawLine(x, y, x - 2, y + 2);
 	}
 	
+	@Override
 	public Rectangle getBounds() {
 		Rectangle rectangle = new Rectangle(getX(), getY(), 2, 2);
 		return rectangle;

@@ -31,7 +31,7 @@ import java.awt.Rectangle;
  *
  */
 public class Cannonball extends Sprite {
-	private final int DIAMETER = 3;
+	private static final int DIAMETER = 3;
 	private Color color;
 	private double gravity = 0.1;
 
@@ -46,9 +46,6 @@ public class Cannonball extends Sprite {
 		color = new Color(0, 51, 0);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#move()
-	 */
 	@Override
 	public void move() {
 		setX((int)(getX() + getDx()));
@@ -56,9 +53,6 @@ public class Cannonball extends Sprite {
 		gravity += 0.05;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Sprite#draw(java.awt.Graphics2D)
-	 */
 	@Override
 	public void draw(Graphics2D g2d) {
         g2d.setColor(color);

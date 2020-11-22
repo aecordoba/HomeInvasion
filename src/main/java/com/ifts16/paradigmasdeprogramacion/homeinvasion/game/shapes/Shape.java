@@ -26,7 +26,6 @@ import java.awt.Rectangle;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
- *
  */
 public abstract class Shape implements Drawable{
 	private int x;

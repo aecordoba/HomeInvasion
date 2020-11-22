@@ -48,13 +48,6 @@ public class StatusScreen implements Drawable {
 		this.commandString = commandString;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Drawable#
-	 * draw(java.awt.Graphics2D)
-	 */
 	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.setBackground(Color.BLACK);
