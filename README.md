@@ -16,3 +16,7 @@ Los aviones enemigos disparan misiles que al impactar en el tanque, lo deteriora
 - Flecha abajo: disminución del ángulo de disparo
 - 1 ~ 5: potencia del disparo
 - Barra espaciadora: disparo
+
+## Diagrama de clases
+
+![Home Invasion, diagrama de clases](images/Class_Diagram.jpg)
