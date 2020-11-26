@@ -46,13 +46,6 @@ public class StatusDisplay implements Drawable {
 		FONT = new Font("Dialog", Font.BOLD, 13);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ifts16.paradigmasdeprogramacion.homeinvasion.game.sprites.Shape#draw(
-	 * java.awt.Graphics2D)
-	 */
 	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(COLOR);
@@ -63,32 +56,19 @@ public class StatusDisplay implements Drawable {
 		g2d.drawString("PUNTAJE: " + score, SCORE_DISPLAY_X, STATUS_DISPLAY_Y);
 	}
 
-	/**
-	 * @param power the power to set
-	 */
 	public void setPower(int power) {
 		this.power = power;
 	}
 
-	/**
-	 * @param angle the angle to set
-	 */
 	public void setAngle(int angle) {
 		this.angle = angle;
 	}
 
-	/**
-	 * @param integrity the integrity to set
-	 */
 	public void setIntegrity(int integrity) {
 		this.integrity = integrity;
 	}
 
-	/**
-	 * @param score the score to set
-	 */
 	public void setScore(int score) {
 		this.score = score;
 	}
-
 }

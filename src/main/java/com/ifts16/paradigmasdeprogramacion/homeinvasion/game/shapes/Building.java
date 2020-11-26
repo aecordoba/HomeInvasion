@@ -54,7 +54,6 @@ public class Building extends Structure {
 		else
 			rectangle = new Rectangle(0, 0, 0, 0);
 		return rectangle;
-		
 	}
 	
 	public void destroy() {

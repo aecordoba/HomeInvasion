@@ -112,11 +112,11 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 				structure.draw(g2d);
 			statusDisplay.draw(g2d);
 		} else if (currentStatus == Status.LOST) {
-			new StatusScreen("TANQUE DETERIORADO", "Estado del tanque: " + tank.getIntegrity() + "%", "Enter para continuar.").draw(g2d);
+			new StatusScreen(width, height, "TANQUE DETERIORADO", "Estado del tanque: " + tank.getIntegrity() + "%", "Enter para continuar.").draw(g2d);
 		} else if (currentStatus == Status.GAME_OVER) {
-			new StatusScreen("JUEGO TERMINADO", "Puntaje obtenido: " + score, "Enter para continuar. / Esc para terminar.").draw(g2d);
+			new StatusScreen(width, height, "JUEGO TERMINADO", "Puntaje obtenido: " + score, "Enter para continuar. / Esc para terminar.").draw(g2d);
 		} else if (currentStatus == Status.WON) {
-			new StatusScreen("USTED GANA", "Puntaje obtenido: " + score, "Enter para continuar. / Esc para terminar.").draw(g2d);
+			new StatusScreen(width, height, "USTED GANA", "Puntaje obtenido: " + score, "Enter para continuar. / Esc para terminar.").draw(g2d);
 		}
 	}
 
@@ -147,7 +147,8 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			System.out.println("Se produjo una interrupción en tiempo de espera.");
+			throw new RuntimeException(e);
 		}
 	}
 

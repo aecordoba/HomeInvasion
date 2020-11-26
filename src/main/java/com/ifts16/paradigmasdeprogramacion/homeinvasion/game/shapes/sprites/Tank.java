@@ -24,7 +24,7 @@ public class Tank extends Sprite {
 		integrity = 100;
 		angle = 0;
 		power = 1;
-		this.gap = range - LENGTH / 2 + CANNON_LENGTH;
+		this.gap = range - (LENGTH / 2 + CANNON_LENGTH);
 		color = new Color(51, 102, 0);
 		ballList = new ArrayList<>();
 	}

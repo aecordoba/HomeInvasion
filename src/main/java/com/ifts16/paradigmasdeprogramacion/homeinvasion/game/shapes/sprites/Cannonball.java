@@ -35,12 +35,6 @@ public class Cannonball extends Sprite {
 	private Color color;
 	private double gravity = 0.1;
 
-	/**
-	 * @param x
-	 * @param y
-	 * @param dx
-	 * @param dy
-	 */
 	public Cannonball(int x, int y, int velocity, double tilt) {
 		super(x, y, velocity * (Math.cos(Math.toRadians(tilt))), -velocity * (Math.sin(Math.toRadians(tilt))));
 		color = new Color(0, 51, 0);
@@ -59,6 +53,7 @@ public class Cannonball extends Sprite {
         g2d.fillOval(getX(), getY(), DIAMETER, DIAMETER);
 	}
 
+	@Override
 	public Rectangle getBounds() {
 		Rectangle rectangle = new Rectangle(getX(), getY(), DIAMETER, DIAMETER);
 		return rectangle;

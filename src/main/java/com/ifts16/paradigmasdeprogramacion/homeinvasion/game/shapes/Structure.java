@@ -16,10 +16,10 @@ public class Structure extends Shape {
 		this.color = color;
 	}
 
+	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(color);
 		g2d.fillRect(getX(), getY(), x2 - getX(), y2 - getY());
-
 	}
 
 	@Override

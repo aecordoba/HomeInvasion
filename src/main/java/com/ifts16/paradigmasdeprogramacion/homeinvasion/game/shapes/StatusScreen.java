@@ -32,17 +32,16 @@ import java.awt.Graphics2D;
  *
  */
 public class StatusScreen implements Drawable {
+	private int width;
+	private int height;
 	private String statusString;
 	private String informationString;
 	private String commandString;
 
-	/**
-	 * @param statusString
-	 * @param informationString
-	 * @param commandString
-	 */
-	public StatusScreen(String statusString, String informationString, String commandString) {
+	public StatusScreen(int width, int height, String statusString, String informationString, String commandString) {
 		super();
+		this.width = width;
+		this.height = height;
 		this.statusString = statusString;
 		this.informationString = informationString;
 		this.commandString = commandString;
@@ -51,35 +50,19 @@ public class StatusScreen implements Drawable {
 	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.setBackground(Color.BLACK);
-		g2d.setColor(Color.RED);
-		Font font = new Font("Dialog", Font.BOLD, 30);
-		g2d.setFont(font);
-		FontMetrics metrics = g2d.getFontMetrics(font);
-		int stringWidth = metrics.stringWidth(statusString);
-		int stringHeight = metrics.getHeight();
-		int x = (800 - stringWidth) / 2;
-		int y = (500 - stringHeight) / 2;
-		g2d.drawString(statusString, x, y);
-
-		if (informationString != null) {
-			g2d.setColor(Color.CYAN);
-			font = new Font("Dialog", Font.PLAIN, 20);
-			g2d.setFont(font);
-			metrics = g2d.getFontMetrics(font);
-			stringWidth = metrics.stringWidth(informationString);
-			x = (800 - stringWidth) / 2;
-			g2d.drawString(informationString, x, y + 50);
-		}
-
-		if (commandString != null) {
-			g2d.setColor(Color.WHITE);
-			font = new Font("Dialog", Font.PLAIN, 15);
-			g2d.setFont(font);
-			metrics = g2d.getFontMetrics(font);
-			stringWidth = metrics.stringWidth(commandString);
-			x = (800 - stringWidth) / 2;
-			g2d.drawString(commandString, x, y + 100);
-		}
+		setText(g2d, statusString, new Font("Dialog", Font.BOLD, 30), Color.RED, height / 3);
+		if (informationString != null)
+			setText(g2d, informationString, new Font("Dialog", Font.PLAIN, 20), Color.CYAN, height / 2);
+		if (commandString != null)
+			setText(g2d, commandString, new Font("Dialog", Font.PLAIN, 15), Color.WHITE, 2 * height / 3);
 	}
-
+	
+	private void setText(Graphics2D g2d, String text, Font font, Color color, int y) {
+		g2d.setFont(font);
+		g2d.setColor(color);
+		FontMetrics metrics = g2d.getFontMetrics(font);
+		int stringWidth = metrics.stringWidth(text);
+		int x = (width - stringWidth) / 2;
+		g2d.drawString(text, x, y);
+	}
 }

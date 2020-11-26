@@ -87,7 +87,6 @@ public class HomeInvasion {
 			}
 		});
 		startButton.setFocusable(false);
-		
 	}
 
 	private static void startGame() {
