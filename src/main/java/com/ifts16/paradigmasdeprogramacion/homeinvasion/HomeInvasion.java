@@ -57,10 +57,10 @@ public class HomeInvasion {
 		mainFrame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		mainFrame.setBackground(new Color(255, 255, 255));
 		mainFrame.setResizable(false);
-		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setVisible(true);
 		
 		showPresentationPanel();
+		mainFrame.setLocationRelativeTo(null);
 	}
 
 	private static BufferedImage getIconImage() {

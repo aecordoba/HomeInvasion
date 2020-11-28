@@ -34,29 +34,29 @@ import java.awt.Rectangle;
 public class Missile extends Sprite {
 	private BasicStroke stroke;
 	
-	public Missile(int x, int y) {
-		super(x, y, 7, 5);
+	public Missile(int xCoordinate, int yCoordinate) {
+		super(xCoordinate, yCoordinate, 7, 5);
 		stroke = new BasicStroke(2);
 	}
 
 	@Override
 	public void move() {
-		setX((int)(getX() - getDx()));
-		setY((int)(getY() + getDy()));
+		setXCoordinate((int)(getXCoordinate() - getXShift()));
+		setYCoordinate((int)(getYCoordinate() + getYShift()));
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		int x = getX();
-		int y = getY();
+		int xCoordinate = getXCoordinate();
+		int yCoordinate = getYCoordinate();
 		g2d.setColor(Color.RED);
 		g2d.setStroke(stroke);
-		g2d.drawLine(x, y, x - 2, y + 2);
+		g2d.drawLine(xCoordinate, yCoordinate, xCoordinate - 2, yCoordinate + 2);
 	}
 	
 	@Override
 	public Rectangle getBounds() {
-		Rectangle rectangle = new Rectangle(getX(), getY(), 2, 2);
+		Rectangle rectangle = new Rectangle(getXCoordinate(), getYCoordinate(), 2, 2);
 		return rectangle;
 	}
 }

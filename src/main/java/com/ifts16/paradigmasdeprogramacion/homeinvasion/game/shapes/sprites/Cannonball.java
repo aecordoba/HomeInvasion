@@ -42,20 +42,20 @@ public class Cannonball extends Sprite {
 
 	@Override
 	public void move() {
-		setX((int)(getX() + getDx()));
-		setY((int)(getY() + getDy() + gravity));
+		setXCoordinate((int)(getXCoordinate() + getXShift()));
+		setYCoordinate((int)(getYCoordinate() + getYShift() + gravity));
 		gravity += 0.05;
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
         g2d.setColor(color);
-        g2d.fillOval(getX(), getY(), DIAMETER, DIAMETER);
+        g2d.fillOval(getXCoordinate(), getYCoordinate(), DIAMETER, DIAMETER);
 	}
 
 	@Override
 	public Rectangle getBounds() {
-		Rectangle rectangle = new Rectangle(getX(), getY(), DIAMETER, DIAMETER);
+		Rectangle rectangle = new Rectangle(getXCoordinate(), getYCoordinate(), DIAMETER, DIAMETER);
 		return rectangle;
 	}
 }

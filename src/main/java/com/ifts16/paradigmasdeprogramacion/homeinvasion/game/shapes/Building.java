@@ -35,8 +35,8 @@ public class Building extends Structure {
 	private static final int HEIGHT = 130;
 	private boolean visible;
 	
-	public Building(int x1, int y1) {
-		super(x1, y1, x1 + WIDTH, y1 + HEIGHT, color);
+	public Building(int xCoordinate, int yCoordinate) {
+		super(xCoordinate, yCoordinate, xCoordinate + WIDTH, yCoordinate + HEIGHT, color);
 		visible = true;
 	}
 	

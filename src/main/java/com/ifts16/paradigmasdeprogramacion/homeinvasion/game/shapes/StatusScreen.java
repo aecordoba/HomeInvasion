@@ -57,12 +57,12 @@ public class StatusScreen implements Drawable {
 			setText(g2d, commandString, new Font("Dialog", Font.PLAIN, 15), Color.WHITE, 2 * height / 3);
 	}
 	
-	private void setText(Graphics2D g2d, String text, Font font, Color color, int y) {
+	private void setText(Graphics2D g2d, String text, Font font, Color color, int yCoordinate) {
 		g2d.setFont(font);
 		g2d.setColor(color);
 		FontMetrics metrics = g2d.getFontMetrics(font);
 		int stringWidth = metrics.stringWidth(text);
-		int x = (width - stringWidth) / 2;
-		g2d.drawString(text, x, y);
+		int xCoordinate = (width - stringWidth) / 2;
+		g2d.drawString(text, xCoordinate, yCoordinate);
 	}
 }

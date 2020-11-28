@@ -46,32 +46,32 @@ public class Jet extends Sprite {
 
 	@Override
 	public void move() {
-		setX((int) (getX() - getDx()));
+		setXCoordinate((int) (getXCoordinate() - getXShift()));
 		for (int i = 0; i < 30; i++) {
-			if (getX() == (int) (Math.random() * 800)) {
+			if (getXCoordinate() == (int) (Math.random() * 800)) {
 				addMissile();
 			}
 		}
-		if (getX() < 800) {
+		if (getXCoordinate() < 800) {
 			for (Missile missile : missilesList) {
 				missile.move();
 			}
 		}
-		if (getX() <= 0) {
-			this.setX(800);
+		if (getXCoordinate() <= 0) {
+			this.setXCoordinate(800);
 		}
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		int x = getX();
-		int y = getY();
+		int xCoordinate = getXCoordinate();
+		int yCoordinate = getYCoordinate();
 		g2d.setColor(Color.GRAY);
 		GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 3);
-		path.moveTo(x, y);
-		path.lineTo(x + 50, y);
-		path.lineTo(x + 57, y - 15);
-		path.lineTo(x + 45, y - 5);
+		path.moveTo(xCoordinate, yCoordinate);
+		path.lineTo(xCoordinate + 50, yCoordinate);
+		path.lineTo(xCoordinate + 57, yCoordinate - 15);
+		path.lineTo(xCoordinate + 45, yCoordinate - 5);
 		path.closePath();
 		g2d.fill(path);
 		for (Missile missile : missilesList) {
@@ -81,17 +81,17 @@ public class Jet extends Sprite {
 
 	@Override
 	public Rectangle getBounds() {
-		Rectangle rectangle = new Rectangle(getX(), getY(), 57, 15);
+		Rectangle rectangle = new Rectangle(getXCoordinate(), getYCoordinate(), 57, 15);
 		return rectangle;
 	}
 
 	public void reset() {
-		setX(800);
-		setY((int) ((Math.random() * (MIN_ALTITUDE - MAX_ALTITUDE)) + MAX_ALTITUDE));
+		setXCoordinate(800);
+		setYCoordinate((int) ((Math.random() * (MIN_ALTITUDE - MAX_ALTITUDE)) + MAX_ALTITUDE));
 	}
 
 	private void addMissile() {
-		missilesList.add(new Missile(getX(), getY()));
+		missilesList.add(new Missile(getXCoordinate(), getYCoordinate()));
 	}
 
 	public List<Missile> getMissilesList() {

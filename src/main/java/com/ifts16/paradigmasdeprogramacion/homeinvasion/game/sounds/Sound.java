@@ -12,10 +12,10 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
 public class Sound {
-	private Map<String, byte[]> sounds;
+	private Map<String, byte[]> soundsMap;
 
 	public Sound() {
-		this.sounds = new HashMap<String, byte[]>();
+		this.soundsMap = new HashMap<String, byte[]>();
 		addSound("music", "sounds/HeroicIntrusion.wav");
 		addSound("tank", "sounds/tank_explosion.wav");
 		addSound("jet", "sounds/jet_explosion.wav");
@@ -25,7 +25,7 @@ public class Sound {
 	private void addSound(String name, String file) {
 		try {
 			byte[] fileContent = Files.readAllBytes(Paths.get(Sound.class.getClassLoader().getResource(file).toURI()));
-			sounds.put(name, fileContent);
+			soundsMap.put(name, fileContent);
 		} catch (Exception e) {
 			System.out.println("No se pudo encontrar el archivo de sonido: " + file);
 			throw new RuntimeException(e);
@@ -34,7 +34,7 @@ public class Sound {
 
 	public void play(String sound, boolean continuosly) {
 		try {
-			byte[] soundBytes = sounds.get(sound);
+			byte[] soundBytes = soundsMap.get(sound);
 			InputStream myInputStream = new ByteArrayInputStream(soundBytes);
 			AudioInputStream ais = AudioSystem.getAudioInputStream(myInputStream);
 			DataLine.Info info = new DataLine.Info(Clip.class, ais.getFormat());

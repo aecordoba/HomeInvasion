@@ -19,8 +19,8 @@ public class Tank extends Sprite {
 	private int power;
 	private List<Cannonball> ballList;
 
-	public Tank(int x, int y, int range) {
-		super(x, y, 0, 0);
+	public Tank(int xCoordinate, int yCoordinate, int range) {
+		super(xCoordinate, yCoordinate, 0, 0);
 		integrity = 100;
 		angle = 0;
 		power = 1;
@@ -31,7 +31,7 @@ public class Tank extends Sprite {
 
 	@Override
 	public void move() {
-		setX((int) (getX() + getDx()));
+		setXCoordinate((int) (getXCoordinate() + getXShift()));
 		angle += angleIncrement;
 		if (angle < 0)
 			angle = 0;
@@ -47,9 +47,9 @@ public class Tank extends Sprite {
 	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(color);
-		g2d.fillOval(getX(), getY(), LENGTH, HEIGHT);
-		int tankCentre = getX() + LENGTH / 2;
-		g2d.drawLine(tankCentre, getY(), (int) (tankCentre + CANNON_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getY() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))));
+		g2d.fillOval(getXCoordinate(), getYCoordinate(), LENGTH, HEIGHT);
+		int tankCentre = getXCoordinate() + LENGTH / 2;
+		g2d.drawLine(tankCentre, getYCoordinate(), (int) (tankCentre + CANNON_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getYCoordinate() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))));
 		if (!ballList.isEmpty()) {
 			for (Cannonball cannonball : ballList) {
 				cannonball.draw(g2d);
@@ -59,30 +59,30 @@ public class Tank extends Sprite {
 
 	@Override
 	public Rectangle getBounds() {
-		Rectangle rectangle = new Rectangle(getX(), getY(), LENGTH, HEIGHT);
+		Rectangle rectangle = new Rectangle(getXCoordinate(), getYCoordinate(), LENGTH, HEIGHT);
 		return rectangle;
 	}
 
 	public void advance() {
-		if (getX() < 500)
-			setDx(TANK_VELOCITY);
+		if (getXCoordinate() < 500)
+			setXShift(TANK_VELOCITY);
 		else {
-			setDx(0);
-			setX(gap);
+			setXShift(0);
+			setXCoordinate(gap);
 		}
 	}
 
 	public void goBack() {
-		if (getX() > 0)
-			setDx(-TANK_VELOCITY);
+		if (getXCoordinate() > 0)
+			setXShift(-TANK_VELOCITY);
 		else {
-			setDx(0);
-			setX(0);
+			setXShift(0);
+			setXCoordinate(0);
 		}
 	}
 
 	public void stop() {
-		setDx(0);
+		setXShift(0);
 	}
 
 	public void increaseTilt() {
@@ -115,7 +115,7 @@ public class Tank extends Sprite {
 	}
 
 	public void fire() {
-		ballList.add(new Cannonball((int) (getX() + LENGTH / 2 + CANNON_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getY() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))), power + 4, angle));
+		ballList.add(new Cannonball((int) (getXCoordinate() + LENGTH / 2 + CANNON_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getYCoordinate() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))), power + 4, angle));
 	}
 
 	public ArrayList<Cannonball> getCannonballsList() {

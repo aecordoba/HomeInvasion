@@ -30,11 +30,11 @@ import java.awt.Graphics2D;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public class StatusDisplay implements Drawable {
-	private static final int STATUS_DISPLAY_Y = 470;
-	private static final int POWER_DISPLAY_X = 30;
-	private static final int ANGLE_DISPLAY_X = 150;
-	private static final int SCORE_DISPLAY_X = 700;
-	private static final int INTEGRITY_DISPLAY_X = 500;
+	private static final int STATUS_DISPLAY_Y_COORD = 470;
+	private static final int POWER_DISPLAY_X_COORD = 30;
+	private static final int ANGLE_DISPLAY_X_COORD = 150;
+	private static final int SCORE_DISPLAY_X_COORD = 700;
+	private static final int INTEGRITY_DISPLAY_X_COORD = 500;
 	private static final Color COLOR = Color.BLACK;
 	private final Font FONT;
 	private int power;
@@ -50,10 +50,10 @@ public class StatusDisplay implements Drawable {
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(COLOR);
 		g2d.setFont(FONT);
-		g2d.drawString("POTENCIA: " + power, POWER_DISPLAY_X, STATUS_DISPLAY_Y);
-		g2d.drawString("ANGULO: " + angle, ANGLE_DISPLAY_X, STATUS_DISPLAY_Y);
-		g2d.drawString("INTEGRIDAD: " + integrity + "%", INTEGRITY_DISPLAY_X, STATUS_DISPLAY_Y);
-		g2d.drawString("PUNTAJE: " + score, SCORE_DISPLAY_X, STATUS_DISPLAY_Y);
+		g2d.drawString("POTENCIA: " + power, POWER_DISPLAY_X_COORD, STATUS_DISPLAY_Y_COORD);
+		g2d.drawString("ANGULO: " + angle, ANGLE_DISPLAY_X_COORD, STATUS_DISPLAY_Y_COORD);
+		g2d.drawString("INTEGRIDAD: " + integrity + "%", INTEGRITY_DISPLAY_X_COORD, STATUS_DISPLAY_Y_COORD);
+		g2d.drawString("PUNTAJE: " + score, SCORE_DISPLAY_X_COORD, STATUS_DISPLAY_Y_COORD);
 	}
 
 	public void setPower(int power) {

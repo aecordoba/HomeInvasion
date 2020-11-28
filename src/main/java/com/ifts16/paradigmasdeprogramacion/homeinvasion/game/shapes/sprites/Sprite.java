@@ -28,30 +28,30 @@ import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Shape;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public abstract class Sprite extends Shape {
-	private double dx;
-	private double dy;
+	private double xShift;
+	private double yShift;
 
-	public Sprite(int x, int y, double dx, double dy) {
-		super(x, y);
-		this.dx = dx;
-		this.dy = dy;
+	public Sprite(int xCoordinate, int yCoordinate, double xShift, double yShift) {
+		super(xCoordinate, yCoordinate);
+		this.xShift = xShift;
+		this.yShift = yShift;
 	}
 
 	public abstract void move();
 
-	public double getDx() {
-		return dx;
+	public double getXShift() {
+		return xShift;
 	}
 
-	public void setDx(double dx) {
-		this.dx = dx;
+	public void setXShift(double xShift) {
+		this.xShift = xShift;
 	}
 
-	public double getDy() {
-		return dy;
+	public double getYShift() {
+		return yShift;
 	}
 
-	public void setDy(double dy) {
-		this.dy = dy;
+	public void setYShift(double yShift) {
+		this.yShift = yShift;
 	}
 }

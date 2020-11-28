@@ -28,29 +28,29 @@ import java.awt.Rectangle;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public abstract class Shape implements Drawable{
-	private int x;
-	private int y;
+	private int xCoordinate;
+	private int yCoordinate;
 
-	public Shape(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public Shape(int xCoordinate, int yCoordinate) {
+		this.xCoordinate = xCoordinate;
+		this.yCoordinate = yCoordinate;
 	}
 
 	public abstract Rectangle getBounds();
 
-	public int getX() {
-		return x;
+	public int getXCoordinate() {
+		return xCoordinate;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public void setXCoordinate(int xCoordinate) {
+		this.xCoordinate = xCoordinate;
 	}
 
-	public int getY() {
-		return y;
+	public int getYCoordinate() {
+		return yCoordinate;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void setYCoordinate(int yCoordinate) {
+		this.yCoordinate = yCoordinate;
 	}
 }
