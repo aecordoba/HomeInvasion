@@ -1,7 +1,6 @@
 package com.ifts16.paradigmasdeprogramacion.homeinvasion.game.verifications;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.ifts16.paradigmasdeprogramacion.homeinvasion.game.shapes.Building;
@@ -19,9 +18,9 @@ public class Collision {
 	}
 
 	public boolean verifyCollisionCannonballJet(Jet jet) {
-		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
+		List<Cannonball> cannonballList = tank.getCannonballsList();
 		boolean collision = false;
-		for (Cannonball cannonball : cannonList) {
+		for (Cannonball cannonball : cannonballList) {
 			Rectangle rectangle1 = cannonball.getBounds();
 			Rectangle rectangle2 = jet.getBounds();
 			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
@@ -34,9 +33,9 @@ public class Collision {
 	}
 
 	public boolean verifyCollisionCannonballTank() {
-		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
+		List<Cannonball> cannonballList = tank.getCannonballsList();
 		boolean collision = false;
-		for (Cannonball cannonball : cannonList) {
+		for (Cannonball cannonball : cannonballList) {
 			Rectangle rectangle1 = cannonball.getBounds();
 			Rectangle rectangle2 = tank.getBounds();
 			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
@@ -48,9 +47,9 @@ public class Collision {
 	}
 
 	public boolean verifyCollisionCannonballBuilding(Building building) {
-		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
+		List<Cannonball> cannonballList = tank.getCannonballsList();
 		boolean collision = false;
-		for (Cannonball cannonball : cannonList) {
+		for (Cannonball cannonball : cannonballList) {
 			Rectangle rectangle1 = cannonball.getBounds();
 			Rectangle rectangle2 = building.getBounds();
 			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
@@ -62,8 +61,8 @@ public class Collision {
 	}
 
 	public void veryfyCollisionCannonballStructure(Structure structure) {
-		ArrayList<Cannonball> cannonList = tank.getCannonballsList();
-		for (Cannonball cannonball : cannonList) {
+		List<Cannonball> cannonballList = tank.getCannonballsList();
+		for (Cannonball cannonball : cannonballList) {
 			Rectangle rectangle1 = cannonball.getBounds();
 			Rectangle rectangle2 = structure.getBounds();
 			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
@@ -73,9 +72,9 @@ public class Collision {
 	}
 
 	public boolean verifyCollisionMissileTank(Jet jet) {
-		List<Missile> missileList = jet.getMissilesList();
+		List<Missile> missilesList = jet.getMissilesList();
 		boolean collision = false;
-		for (Missile missile : missileList) {
+		for (Missile missile : missilesList) {
 			Rectangle rectangle1 = missile.getBounds();
 			Rectangle rectangle2 = tank.getBounds();
 			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {

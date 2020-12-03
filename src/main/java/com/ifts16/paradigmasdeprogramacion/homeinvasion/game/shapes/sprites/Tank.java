@@ -17,7 +17,7 @@ public class Tank extends Sprite {
 	private int angle;
 	private int angleIncrement;
 	private int power;
-	private List<Cannonball> ballList;
+	private List<Cannonball> cannonballsList;
 
 	public Tank(int xCoordinate, int yCoordinate, int range) {
 		super(xCoordinate, yCoordinate, 0, 0);
@@ -26,7 +26,7 @@ public class Tank extends Sprite {
 		power = 1;
 		this.gap = range - (LENGTH / 2 + CANNON_LENGTH);
 		color = new Color(51, 102, 0);
-		ballList = new ArrayList<>();
+		cannonballsList = new ArrayList<>();
 	}
 
 	@Override
@@ -37,8 +37,8 @@ public class Tank extends Sprite {
 			angle = 0;
 		if (angle > 90)
 			angle = 90;
-		if (!ballList.isEmpty()) {
-			for (Cannonball cannonball : ballList) {
+		if (!cannonballsList.isEmpty()) {
+			for (Cannonball cannonball : cannonballsList) {
 				cannonball.move();
 			}
 		}
@@ -50,8 +50,8 @@ public class Tank extends Sprite {
 		g2d.fillOval(getXCoordinate(), getYCoordinate(), LENGTH, HEIGHT);
 		int tankCentre = getXCoordinate() + LENGTH / 2;
 		g2d.drawLine(tankCentre, getYCoordinate(), (int) (tankCentre + CANNON_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getYCoordinate() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))));
-		if (!ballList.isEmpty()) {
-			for (Cannonball cannonball : ballList) {
+		if (!cannonballsList.isEmpty()) {
+			for (Cannonball cannonball : cannonballsList) {
 				cannonball.draw(g2d);
 			}
 		}
@@ -115,19 +115,19 @@ public class Tank extends Sprite {
 	}
 
 	public void fire() {
-		ballList.add(new Cannonball((int) (getXCoordinate() + LENGTH / 2 + CANNON_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getYCoordinate() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))), power + 4, angle));
+		cannonballsList.add(new Cannonball((int) (getXCoordinate() + LENGTH / 2 + CANNON_LENGTH * (Math.cos(Math.toRadians(angle)))), (int) (getYCoordinate() - CANNON_LENGTH * (Math.sin(Math.toRadians(angle)))), power + 4, angle));
 	}
 
-	public ArrayList<Cannonball> getCannonballsList() {
-		ArrayList<Cannonball> cannonballsList = new ArrayList<Cannonball>();
-		for (Cannonball cannonball : ballList) {
-			cannonballsList.add(cannonball);
+	public List<Cannonball> getCannonballsList() {
+		List<Cannonball> ballsList = new ArrayList<Cannonball>();
+		for (Cannonball cannonball : cannonballsList) {
+			ballsList.add(cannonball);
 		}
-		return cannonballsList;
+		return ballsList;
 	}
 
 	public void remove(Cannonball cannonball) {
-		ballList.remove(cannonball);
+		cannonballsList.remove(cannonball);
 	}
 
 	public void resetIntegrity() {
