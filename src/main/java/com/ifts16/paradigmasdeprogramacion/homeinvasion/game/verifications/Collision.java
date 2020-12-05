@@ -21,13 +21,9 @@ public class Collision {
 		List<Cannonball> cannonballList = tank.getCannonballsList();
 		boolean collision = false;
 		for (Cannonball cannonball : cannonballList) {
-			Rectangle rectangle1 = cannonball.getBounds();
-			Rectangle rectangle2 = jet.getBounds();
-			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
-				collision = true;
+			collision = isCollision(cannonball.getBounds(), jet.getBounds());
+			if (collision)
 				tank.remove(cannonball);
-
-			}
 		}
 		return collision;
 	}
@@ -36,12 +32,9 @@ public class Collision {
 		List<Cannonball> cannonballList = tank.getCannonballsList();
 		boolean collision = false;
 		for (Cannonball cannonball : cannonballList) {
-			Rectangle rectangle1 = cannonball.getBounds();
-			Rectangle rectangle2 = tank.getBounds();
-			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
-				collision = true;
+			collision = isCollision(cannonball.getBounds(), tank.getBounds());
+			if (collision)
 				tank.remove(cannonball);
-			}
 		}
 		return collision;
 	}
@@ -50,12 +43,9 @@ public class Collision {
 		List<Cannonball> cannonballList = tank.getCannonballsList();
 		boolean collision = false;
 		for (Cannonball cannonball : cannonballList) {
-			Rectangle rectangle1 = cannonball.getBounds();
-			Rectangle rectangle2 = building.getBounds();
-			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
-				collision = true;
+			collision = isCollision(cannonball.getBounds(), building.getBounds());
+			if (collision)
 				tank.remove(cannonball);
-			}
 		}
 		return collision;
 	}
@@ -63,32 +53,31 @@ public class Collision {
 	public void veryfyCollisionCannonballStructure(Structure structure) {
 		List<Cannonball> cannonballList = tank.getCannonballsList();
 		for (Cannonball cannonball : cannonballList) {
-			Rectangle rectangle1 = cannonball.getBounds();
-			Rectangle rectangle2 = structure.getBounds();
-			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
+			if (isCollision(cannonball.getBounds(), structure.getBounds()))
 				tank.remove(cannonball);
-			}
 		}
 	}
 
 	public boolean verifyCollisionMissileTank(Jet jet) {
 		List<Missile> missilesList = jet.getMissilesList();
 		boolean collision = false;
-		for (Missile missile : missilesList) {
-			Rectangle rectangle1 = missile.getBounds();
-			Rectangle rectangle2 = tank.getBounds();
-			if (isCollision((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isCollision((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight()))) {
-				collision = true;
-			}
-		}
+		for (Missile missile : missilesList)
+			collision = isCollision(missile.getBounds(), tank.getBounds());
 		return collision;
 	}
 
-	private boolean isCollision(int sprite11, int sprite12, int sprite21, int sprite22) {
-		boolean hit = false;
+	private boolean isCollision(Rectangle rectangle1, Rectangle rectangle2) {
+		boolean collision = false;
+		if (isSuperimposed((int) rectangle1.getX(), (int) (rectangle1.getX() + rectangle1.getWidth()), (int) rectangle2.getX(), (int) (rectangle2.getX() + rectangle2.getWidth())) && isSuperimposed((int) rectangle1.getY(), (int) (rectangle1.getY() + rectangle1.getHeight()), (int) rectangle2.getY(), (int) (rectangle2.getY() + rectangle2.getHeight())))
+			collision = true;
+		return collision;
+	}
+
+	private boolean isSuperimposed(int sprite11, int sprite12, int sprite21, int sprite22) {
+		boolean overlap = false;
 		if (sprite11 < sprite22 && sprite12 > sprite21) {
-			hit = true;
+			overlap = true;
 		}
-		return hit;
+		return overlap;
 	}
 }
