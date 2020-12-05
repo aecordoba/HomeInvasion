@@ -61,8 +61,11 @@ public class Collision {
 	public boolean verifyCollisionMissileTank(Jet jet) {
 		List<Missile> missilesList = jet.getMissilesList();
 		boolean collision = false;
-		for (Missile missile : missilesList)
+		for (Missile missile : missilesList) {
 			collision = isCollision(missile.getBounds(), tank.getBounds());
+			if(collision)
+				break;
+		}
 		return collision;
 	}
 
