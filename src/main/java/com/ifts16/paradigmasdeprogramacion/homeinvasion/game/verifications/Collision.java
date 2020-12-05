@@ -22,8 +22,10 @@ public class Collision {
 		boolean collision = false;
 		for (Cannonball cannonball : cannonballList) {
 			collision = isCollision(cannonball.getBounds(), jet.getBounds());
-			if (collision)
+			if (collision) {
 				tank.remove(cannonball);
+				break;
+			}
 		}
 		return collision;
 	}
@@ -33,8 +35,10 @@ public class Collision {
 		boolean collision = false;
 		for (Cannonball cannonball : cannonballList) {
 			collision = isCollision(cannonball.getBounds(), tank.getBounds());
-			if (collision)
+			if (collision) {
 				tank.remove(cannonball);
+				break;
+			}
 		}
 		return collision;
 	}
@@ -44,8 +48,10 @@ public class Collision {
 		boolean collision = false;
 		for (Cannonball cannonball : cannonballList) {
 			collision = isCollision(cannonball.getBounds(), building.getBounds());
-			if (collision)
+			if (collision) {
 				tank.remove(cannonball);
+				break;
+			}
 		}
 		return collision;
 	}
@@ -53,8 +59,10 @@ public class Collision {
 	public void veryfyCollisionCannonballStructure(Structure structure) {
 		List<Cannonball> cannonballList = tank.getCannonballsList();
 		for (Cannonball cannonball : cannonballList) {
-			if (isCollision(cannonball.getBounds(), structure.getBounds()))
+			if (isCollision(cannonball.getBounds(), structure.getBounds())) {
 				tank.remove(cannonball);
+				break;
+			}
 		}
 	}
 
@@ -63,7 +71,7 @@ public class Collision {
 		boolean collision = false;
 		for (Missile missile : missilesList) {
 			collision = isCollision(missile.getBounds(), tank.getBounds());
-			if(collision)
+			if (collision)
 				break;
 		}
 		return collision;
